@@ -1,0 +1,18 @@
+CREATE TABLE aufbrueche (
+  id integer,
+  vtraeger varchar(255),
+  strassen varchar(255),
+  spuren varchar(255),
+  beginn date,
+  created_at timestamp,
+  updated_at timestamp
+);
+SELECT AddGeometryColumn('aufbrueche', 'the_geom', 4326, 'POLYGON', 2);
+CREATE INDEX geom_index ON aufbrueche USING GIST (the_geom);
+ALTER TABLE aufbrueche ADD CONSTRAINT id_geom_unique UNIQUE (the_geom, id);
+
+
+# For trigger..
+
+SET datestyle = 'ISO, DMY';
+SELECT '03.05.2011'::date;
