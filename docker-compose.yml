@@ -1,20 +1,23 @@
 converter:
   build: .
   volumes:
-    - ./data:/usr/share/nginx/html
+    - .:/data
+#    - ./data:/usr/share/nginx/html
+  links:
+    - postgis
 
-web:
-  image: nginx
-  ports:
-    - "6080:80"
-  volumes:
-    - ./nginx:/etc/nginx/conf.d
-  volumes_from:
-    - converter
-
-#postgis:
-#  image: mdillon/postgis:9.4
-#  environment:
-#    - POSTGRES_PASSWORD=aufgrabungen123
+#web:
+#  image: nginx
+#  ports:
+#    - "6080:80"
 #  volumes:
-#    - ./postgis:/var/lib/postgresql/data
+#    - ./nginx:/etc/nginx/conf.d
+#  volumes_from:
+#    - converter
+
+postgis:
+  image: mdillon/postgis:9.4
+  environment:
+    - POSTGRES_PASSWORD=aufgrabungen123
+  volumes:
+    - ./postgis:/var/lib/postgresql/data
