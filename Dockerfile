@@ -9,5 +9,6 @@ RUN curl -L https://github.com/odise/go-cron/releases/download/v0.0.6/go-cron-li
   && chmod u+x /usr/local/bin/go-cron
 
 COPY dl-and-convert.sh /
+COPY jq-filters /
 
 CMD ["go-cron", "@every 10s", "/bin/bash", "dl-and-convert.sh"]

@@ -1,0 +1,5 @@
+.["license"] = "https://www.govdata.de/dl-de/by-1-0" |
+.["source"] = "https://www.govdata.de/web/guest/daten/-/details/aufgrabungsmeldung-stadt-munster" |
+.["fetch_time"] = "@@date@@" |
+del(.crs) |
+tostring
