@@ -12,9 +12,3 @@ web:
   volumes_from:
     - converter
 
-#postgis:
-#  image: mdillon/postgis:9.4
-#  environment:
-#    - POSTGRES_PASSWORD=aufgrabungen123
-#  volumes:
-#    - ./postgis:/var/lib/postgresql/data
