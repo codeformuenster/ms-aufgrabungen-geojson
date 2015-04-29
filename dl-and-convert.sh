@@ -23,8 +23,8 @@ ogr2ogr -nlt POLYGON -lco COORDINATE_PRECISION=6 -f GeoJSON -t_srs crs:84 /vsist
 gzip -1 -f -c $OUTPUT_DIR/$TODAY.json > $OUTPUT_DIR/$TODAY.json.gz;
 
 # copy to ../latest.json
-cp $OUTPUT_DIR/$TODAY.json $OUTPUT_DIR/../latest.json
-cp $OUTPUT_DIR/$TODAY.json.gz $OUTPUT_DIR/../latest.json.gz
+ln -f -s $OUTPUT_DIR/$TODAY.json $OUTPUT_DIR/../latest.json
+ln -f -s $OUTPUT_DIR/$TODAY.json.gz $OUTPUT_DIR/../latest.json.gz
 
 # cleanup
 rm -rf tmp $ZIP_FILENAME
