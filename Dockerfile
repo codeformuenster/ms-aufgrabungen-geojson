@@ -11,4 +11,4 @@ RUN curl -L https://github.com/odise/go-cron/releases/download/v0.0.6/go-cron-li
 COPY dl-and-convert.sh /
 COPY jq-filters /
 
-CMD ["go-cron", "@every 10s", "/bin/bash", "dl-and-convert.sh"]
+CMD ["go-cron", "0 0 1 * * *", "/bin/bash", "dl-and-convert.sh"]
