@@ -1,14 +1,34 @@
+postgis:
+  image: mdillon/postgis:9.4
+  environment:
+    - POSTGRES_PASSWORD=aufgrabungen123
+  volumes:
+    - ./postgis:/var/lib/postgresql/data
+
 converter:
   build: .
-  volumes:
-    - ./data:/usr/share/nginx/html
+  links:
+    - postgis
+  environment:
+    - SCHEDULE=@every 20s
+
+postgrest:
+  image: ubergesundheit/docker-postgrest
+  links:
+    - postgis
+  environment:
+    - DBHOST=postgis
+    - DBNAME=postgres
+    - DBUSER=postgres
+    - DBPASS=aufgrabungen123
+    - ANONUSER=anon
 
 web:
-  image: nginx
+  image: nginx:1.9
   ports:
     - "6080:80"
   volumes:
     - ./nginx:/etc/nginx/conf.d
-  volumes_from:
-    - converter
+  links:
+    - postgrest
 
