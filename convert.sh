@@ -5,7 +5,7 @@ TODAY=`date --iso-8601`
 ZIP_FILENAME=$TODAY.zip
 
 # migrate database if necessary
-shmig -t postgresql -d postgres -l postgres -H postgis -p ${POSTGIS_ENV_POSTGRES_PASSWORD} up
+shmig -t postgresql -d postgres -l postgres -H postgis -p ${POSTGIS_ENV_POSTGRES_PASSWORD} -m /migrations up
 
 # download todays shapefile
 curl --silent --output "$ZIP_FILENAME" "$URL"

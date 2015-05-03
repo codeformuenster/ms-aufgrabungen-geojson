@@ -9,13 +9,13 @@ converter:
   build: .
   links:
     - postgis
+  environment:
+    - SCHEDULE=@every 20s
 
 postgrest:
   image: ubergesundheit/docker-postgrest
   links:
     - postgis
-  ports:
-    - "7000:3000"
   environment:
     - DBHOST=postgis
     - DBNAME=postgres

@@ -13,5 +13,7 @@ RUN curl -L https://raw.githubusercontent.com/naquad/shmig/a06917d0ecf3e198c4416
 
 COPY migrations /migrations
 COPY convert.sh .
+COPY go-cron.sh /usr/local/bin/
 
-CMD ["go-cron", "0 0 1 * * *", "/bin/bash", "/convert.sh"]
+CMD ["go-cron.sh"]
+
