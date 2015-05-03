@@ -1,4 +1,6 @@
 -- ====  UP  ====
+BEGIN;
+
 SET client_encoding = 'UTF8';
 
 --
@@ -73,4 +75,36 @@ $transform_and_insert$ LANGUAGE plpgsql;
  
 CREATE TRIGGER transform_and_insert_trig INSTEAD OF INSERT ON aufbrueche FOR EACH ROW EXECUTE PROCEDURE transform_and_insert();
 
+
+--
+-- create schema postgrest operates on
+--
+CREATE SCHEMA "1";
+
+--
+-- create view for postgrest
+--
+
+CREATE OR REPLACE VIEW "1".aufgrabungen AS
+SELECT * FROM (SELECT
+   'Feature'::text AS type,
+   ST_AsGeoJSON(lg.the_geom, 6)::json As geometry,
+   row_to_json((SELECT l FROM (SELECT strassen,
+      spuren,
+      beginn,
+      created_at,
+      updated_at) As l
+      )) As properties
+   FROM "public".aufgrabungen AS lg) AS f;
+
+--
+-- create user for postgrest
+--
+CREATE ROLE anon NOLOGIN;
+GRANT USAGE ON SCHEMA "1" TO anon;
+GRANT SELECT ON "1".aufgrabungen TO anon;
+
+COMMIT;
+
 -- ==== DOWN ====
+-- probably never used.. we only migrate up

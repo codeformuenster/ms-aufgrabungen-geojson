@@ -21,7 +21,7 @@ postgrest:
     - DBNAME=postgres
     - DBUSER=postgres
     - DBPASS=aufgrabungen123
-    - V1SCHEMA=public
+    - ANONUSER=anon
 
 web:
   image: nginx:1.9
