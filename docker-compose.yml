@@ -1,23 +1,31 @@
-converter:
-  build: .
-  volumes:
-    - .:/data
-#    - ./data:/usr/share/nginx/html
-  links:
-    - postgis
-
-#web:
-#  image: nginx
-#  ports:
-#    - "6080:80"
-#  volumes:
-#    - ./nginx:/etc/nginx/conf.d
-#  volumes_from:
-#    - converter
-
 postgis:
   image: mdillon/postgis:9.4
   environment:
     - POSTGRES_PASSWORD=aufgrabungen123
   volumes:
     - ./postgis:/var/lib/postgresql/data
+
+converter:
+  build: .
+  links:
+    - postgis
+
+postgrest:
+  image: ubergesundheit/docker-postgrest
+  links:
+    - postgis
+  ports:
+    - "7000:3000"
+  environment:
+    - DBHOST=postgis
+    - DBNAME=postgres
+    - DBUSER=postgres
+    - DBPASS=aufgrabungen123
+    - V1SCHEMA=public
+
+#web:
+#  image: nginx:1.9
+#  ports:
+#    - "6080:80"
+#  volumes:
+#    - ./nginx:/etc/nginx/conf.d
