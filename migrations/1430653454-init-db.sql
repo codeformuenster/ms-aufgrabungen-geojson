@@ -1,3 +1,4 @@
+-- ====  UP  ====
 SET client_encoding = 'UTF8';
 
 --
@@ -72,3 +73,4 @@ $transform_and_insert$ LANGUAGE plpgsql;
  
 CREATE TRIGGER transform_and_insert_trig INSTEAD OF INSERT ON aufbrueche FOR EACH ROW EXECUTE PROCEDURE transform_and_insert();
 
+-- ==== DOWN ====

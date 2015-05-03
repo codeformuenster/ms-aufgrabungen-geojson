@@ -23,9 +23,11 @@ postgrest:
     - DBPASS=aufgrabungen123
     - V1SCHEMA=public
 
-#web:
-#  image: nginx:1.9
-#  ports:
-#    - "6080:80"
-#  volumes:
-#    - ./nginx:/etc/nginx/conf.d
+web:
+  image: nginx:1.9
+  ports:
+    - "6080:80"
+  volumes:
+    - ./nginx:/etc/nginx/conf.d
+  links:
+    - postgrest
