@@ -72,7 +72,7 @@ BEGIN
   RETURN NEW;
 END;
 $transform_and_insert$ LANGUAGE plpgsql;
- 
+
 CREATE TRIGGER transform_and_insert_trig INSTEAD OF INSERT ON aufbrueche FOR EACH ROW EXECUTE PROCEDURE transform_and_insert();
 
 
@@ -85,11 +85,13 @@ CREATE SCHEMA "1";
 -- create view for postgrest
 --
 
-CREATE OR REPLACE VIEW "1".aufgrabungen AS
+CREATE OR REPLACE VIEW "1".aufgrabungen_polygon AS
 SELECT * FROM (SELECT
    'Feature'::text AS type,
    ST_AsGeoJSON(lg.the_geom, 6)::json As geometry,
-   row_to_json((SELECT l FROM (SELECT strassen,
+   row_to_json((SELECT l FROM (SELECT
+      id,
+      strassen,
       spuren,
       beginn,
       created_at,
@@ -97,12 +99,39 @@ SELECT * FROM (SELECT
       )) As properties
    FROM "public".aufgrabungen AS lg) AS f;
 
+CREATE OR REPLACE VIEW "1".aufgrabungen AS
+SELECT * FROM "1".aufgrabungen_polygon;
+
+CREATE OR REPLACE VIEW "1".aufgrabungen_point AS
+SELECT * FROM (SELECT
+   'Feature'::text AS type,
+   ST_AsGeoJSON(ST_Centroid(lg.the_geom), 6)::json As geometry,
+   row_to_json((SELECT l FROM (SELECT
+      id,
+      strassen,
+      spuren,
+      beginn,
+      created_at,
+      updated_at) As l
+      )) As properties
+   FROM "public".aufgrabungen AS lg) AS f;
+
+CREATE OR REPLACE VIEW "1".attribution AS
+SELECT
+'https://www.govdata.de/web/guest/daten/-/details/aufgrabungsmeldung-stadt-munster'::text as source,
+'Datenlizenz Deutschland Namensnennung dl-de-by-1.0 http://www.daten-deutschland.de/bibliothek/Datenlizenz_Deutschland/dl-de-by-1.0'::text as license,
+'This is an automated shapefile to postgis to geojson service of the open data "Aufgrabungsmeldung Stadt Münster" by the Tiefbauamt Münster which is only provided as a zipped shapefile download. It is an attempt to provide a better way to interact with the data. If you use this, always attribute the source of the data from govdata.de. For more information please look at the sourcecode at https://github.com/ubergesundheit/ms-aufgrabungen-geojson This is a project of Code for Münster (https://codeformuenster.org)'::text as info;
+
 --
 -- create user for postgrest
 --
+
 CREATE ROLE anon NOLOGIN;
 GRANT USAGE ON SCHEMA "1" TO anon;
 GRANT SELECT ON "1".aufgrabungen TO anon;
+GRANT SELECT ON "1".aufgrabungen_polygon TO anon;
+GRANT SELECT ON "1".aufgrabungen_point TO anon;
+GRANT SELECT ON "1".attribution TO anon;
 
 COMMIT;
 
