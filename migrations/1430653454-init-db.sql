@@ -118,6 +118,7 @@ SELECT * FROM (SELECT
 
 CREATE OR REPLACE VIEW "1".attribution AS
 SELECT
+'Tiefbauamt der Stadt Münster, http://www.muenster.de/stadt/tiefbauamt/' as data_provider,
 'https://www.govdata.de/web/guest/daten/-/details/aufgrabungsmeldung-stadt-munster'::text as source,
 'Datenlizenz Deutschland Namensnennung dl-de-by-1.0 http://www.daten-deutschland.de/bibliothek/Datenlizenz_Deutschland/dl-de-by-1.0'::text as license,
 'This is an automated shapefile to postgis to geojson service of the open data "Aufgrabungsmeldung Stadt Münster" by the Tiefbauamt Münster which is only provided as a zipped shapefile download. It is an attempt to provide a better way to interact with the data. If you use this, always attribute the source of the data from govdata.de. For more information please look at the sourcecode at https://github.com/ubergesundheit/ms-aufgrabungen-geojson This is a project of Code for Münster (https://codeformuenster.org)'::text as info;
