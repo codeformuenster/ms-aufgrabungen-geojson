@@ -91,6 +91,7 @@ SELECT * FROM (SELECT
    ST_AsGeoJSON(lg.the_geom, 6)::json As geometry,
    row_to_json((SELECT l FROM (SELECT
       id,
+      vtraeger,
       strassen,
       spuren,
       beginn,
@@ -108,6 +109,7 @@ SELECT * FROM (SELECT
    ST_AsGeoJSON(ST_Centroid(lg.the_geom), 6)::json As geometry,
    row_to_json((SELECT l FROM (SELECT
       id,
+      vtraeger,
       strassen,
       spuren,
       beginn,
