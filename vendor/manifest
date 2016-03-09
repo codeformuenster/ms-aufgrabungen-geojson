@@ -1,0 +1,17 @@
+{
+	"version": 0,
+	"dependencies": [
+		{
+			"importpath": "github.com/mb0/wkt",
+			"repository": "https://github.com/mb0/wkt",
+			"revision": "95b4a34f805a026afedf9ecac2e2549b207b7e75",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/paulmach/go.geojson",
+			"repository": "https://github.com/paulmach/go.geojson",
+			"revision": "8792ee8f05e3cc3d794f74cbc281078439da5280",
+			"branch": "master"
+		}
+	]
+}
